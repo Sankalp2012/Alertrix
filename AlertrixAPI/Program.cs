@@ -8,7 +8,16 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoSettings"));
+var mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
+if (string.IsNullOrEmpty(mongoConnectionString))
+{
+    throw new Exception("MONGO_CONNECTION_STRING environment variable is not set.");
+}
+builder.Services.Configure<MongoSettings>(options =>
+{
+    options.ConnectionString = mongoConnectionString;
+    options.DatabaseName = "Alertrix";
+});
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddScoped<IAlertRepository, AlertRepository>();
