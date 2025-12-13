@@ -1,0 +1,6 @@
+@AlertrixAPI_HostAddress = http://localhost:5089
+
+GET {{AlertrixAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
