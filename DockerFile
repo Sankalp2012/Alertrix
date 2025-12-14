@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY . .
-RUN dotnet restore AlertrixApi/AlertrixApi.csproj
-RUN dotnet publish AlertrixApi/AlertrixApi.csproj -c Release -o /app/publish
+RUN dotnet restore AlertrixAPI/AlertrixAPI.csproj
+RUN dotnet publish AlertrixAPI/AlertrixAPI.csproj -c Release -o /app/publish
 
 # ---------- Runtime stage ----------
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
