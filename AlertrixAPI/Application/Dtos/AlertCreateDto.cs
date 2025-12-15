@@ -11,7 +11,5 @@ namespace AlertrixAPI.Application.DTOs
         [Required]
         [StringLength(1000)]
         public string Description { get; set; } = string.Empty;
-
-        public string? UserId { get; set; } = string.Empty;
     }
 }
