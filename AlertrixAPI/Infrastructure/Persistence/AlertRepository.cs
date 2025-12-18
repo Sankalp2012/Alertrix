@@ -52,10 +52,10 @@ namespace AlertrixAPI.Infrastructure.Persistence
             return result.DeletedCount > 0;
 }
 
-        public async Task<long> CountAsync(string userId, CancellationToken cancellationToken)
+        public async Task<long> CountAsync(string userId)
         {
             var filter = string.IsNullOrWhiteSpace(userId) ? Builders<Alert>.Filter.Empty : Builders<Alert>.Filter.Eq(a => a.UserId, userId);
-            return await _collection.CountDocumentsAsync(filter, cancellationToken: cancellationToken);
+            return await _collection.CountDocumentsAsync(filter);
         }
     }
 }
