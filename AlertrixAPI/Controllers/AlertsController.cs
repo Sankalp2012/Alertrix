@@ -30,14 +30,12 @@ namespace AlertrixAPI.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<AlertDto>), 200)]
-        [ProducesResponseType(typeof(UnauthorizedAccessException), 401)]
-        [ProducesResponseType(typeof(InternalServerError), 500)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20, CancellationToken cancellationToken = default)
         {
             var userEmail = GetCurrentUserEmail();
             var items = await _service.GetAlertsAsync(userEmail, page, pageSize, cancellationToken);
-            return Ok(items);
+            return Ok(items.Items);
         }
 
         [HttpPost]
