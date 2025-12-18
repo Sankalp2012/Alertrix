@@ -2,6 +2,7 @@ using System.Security.Claims;
 using AlertrixAPI.Application.DTOs;
 using AlertrixAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlertrixAPI.API.Controllers
@@ -29,11 +30,13 @@ namespace AlertrixAPI.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(List<AlertDto>), 200)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), 400)]
+        [ProducesResponseType(typeof(InternalServerError), 500)]
         public async Task<IActionResult> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20, CancellationToken cancellationToken = default)
         {
             var userEmail = GetCurrentUserEmail();
-            var (items, total) = await _service.GetAlertsAsync(userEmail, page, pageSize, cancellationToken);
-            Response.Headers.Add("X-Total-Count", total.ToString());
+            var items = await _service.GetAlertsAsync(userEmail, page, pageSize, cancellationToken);
             return Ok(items);
         }
 
