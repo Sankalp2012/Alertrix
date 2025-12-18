@@ -13,10 +13,10 @@ namespace AlertrixAPI.Application.Services
             _repo = repo;
         }
 
-        public async Task<(List<AlertDto> Items, long Total)> GetAlertsAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
+        public async Task<(List<AlertDto> Items, long Total)> GetAlertsAsync(string userId)
         {
-            var items = await _repo.GetAsync(userId, page, pageSize, cancellationToken);
-            var total = await _repo.CountAsync(userId, cancellationToken);
+            var items = await _repo.GetAsync(userId);
+            var total = await _repo.CountAsync(userId);
             var dtos = items.Select(MapToDto).ToList();
             return (dtos, total);
         }

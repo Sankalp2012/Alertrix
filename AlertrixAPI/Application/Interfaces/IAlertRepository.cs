@@ -4,10 +4,10 @@ namespace AlertrixAPI.Application.Interfaces
 {
     public interface IAlertRepository
     {
-        Task<List<Alert>> GetAsync(string userId, int page, int pageSize, CancellationToken cancellationToken);
+        Task<List<Alert>> GetAsync(string userId);
         Task<Alert?> GetByIdAsync(string id, CancellationToken cancellationToken);
         Task CreateAsync(Alert alert, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(string id, string userId, CancellationToken cancellationToken);
-        Task<long> CountAsync(string userId, CancellationToken cancellationToken);
+        Task<long> CountAsync(string userId);
     }
 }

@@ -23,15 +23,12 @@ namespace AlertrixAPI.Infrastructure.Persistence
             _collection = db.GetCollection<Alert>("Alerts");
         }
 
-        public async Task<List<Alert>> GetAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
+        public async Task<List<Alert>> GetAsync(string userId)
         {
             var filter = Builders<Alert>.Filter.Eq(a => a.UserId, userId);
-            var skip = (page - 1) * pageSize;
             var find = _collection.Find(filter)
-                            .SortByDescending(a => a.CreatedAt)
-                            .Skip(skip)
-                            .Limit(pageSize);
-            return await find.ToListAsync(cancellationToken);
+                            .SortByDescending(a => a.CreatedAt);
+            return await find.ToListAsync();
         }
 
         public async Task<Alert?> GetByIdAsync(string id, CancellationToken cancellationToken)
