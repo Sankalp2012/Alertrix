@@ -23,12 +23,15 @@ namespace AlertrixAPI.Infrastructure.Persistence
             _collection = db.GetCollection<Alert>("Alerts");
         }
 
-        public async Task<List<Alert>> GetAsync(string userId)
+        public async Task<List<Alert>> GetAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
         {
             var filter = Builders<Alert>.Filter.Eq(a => a.UserId, userId);
+            var skip = (page - 1) * pageSize;
             var find = _collection.Find(filter)
-                            .SortByDescending(a => a.CreatedAt);
-            return await find.ToListAsync();
+                            .SortByDescending(a => a.CreatedAt)
+                            .Skip(skip)
+                            .Limit(pageSize);
+            return await find.ToListAsync(cancellationToken);
         }
 
         public async Task<Alert?> GetByIdAsync(string id, CancellationToken cancellationToken)
@@ -52,10 +55,10 @@ namespace AlertrixAPI.Infrastructure.Persistence
             return result.DeletedCount > 0;
 }
 
-        public async Task<long> CountAsync(string userId)
+        public async Task<long> CountAsync(string userId, CancellationToken cancellationToken)
         {
             var filter = string.IsNullOrWhiteSpace(userId) ? Builders<Alert>.Filter.Empty : Builders<Alert>.Filter.Eq(a => a.UserId, userId);
-            return await _collection.CountDocumentsAsync(filter);
+            return await _collection.CountDocumentsAsync(filter, cancellationToken: cancellationToken);
         }
     }
 }
