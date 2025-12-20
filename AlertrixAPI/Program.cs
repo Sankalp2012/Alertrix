@@ -25,6 +25,8 @@ builder.Services.AddScoped<IAlertService, AlertService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddHttpClient<GroqAlertEvaluator>();
+
 var jwtOptions = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 var key = Encoding.UTF8.GetBytes(jwtOptions?.Secret ?? "");
 

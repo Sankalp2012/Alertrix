@@ -1,0 +1,27 @@
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/groq-test")]
+public class GroqTestController : ControllerBase
+{
+    private readonly GroqAlertEvaluator _groq;
+
+    public GroqTestController(GroqAlertEvaluator groq)
+    {
+        _groq = groq;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Test()
+    {
+        var condition = "Has the cricket match restarted after rain?";
+
+        var result = await _groq.IsAlertTriggeredAsync(condition);
+
+        return Ok(new
+        {
+            condition,
+            triggered = result
+        });
+    }
+}
