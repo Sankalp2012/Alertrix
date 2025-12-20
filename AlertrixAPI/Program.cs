@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING");
+var mongoConnectionString = Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING") ?? "abc";
 if (string.IsNullOrEmpty(mongoConnectionString))
 {
     throw new Exception("MONGO_CONNECTION_STRING environment variable is not set.");

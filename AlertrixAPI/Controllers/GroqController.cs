@@ -1,18 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 
+namespace AlertrixAPI.API.Controllers;
+
 [ApiController]
-[Route("api/groq-test")]
-public class GroqTestController : ControllerBase
+[Route("api/[controller]")]
+public class GroqController : ControllerBase
 {
     private readonly GroqAlertEvaluator _groq;
 
-    public GroqTestController(GroqAlertEvaluator groq)
+    public GroqController(GroqAlertEvaluator groq)
     {
         _groq = groq;
     }
 
     [HttpGet]
-    public async Task<IActionResult> Test()
+    public async Task<IActionResult> GroqResult()
     {
         var condition = "Has the cricket match restarted after rain?";
 
